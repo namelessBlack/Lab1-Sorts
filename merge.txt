@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+
+std::vector<int> Merge(std::vector<int> Left, std::vector<int> Right) {
+    int i = 0, j = 0;
+    std::vector<int> result;
+
+    while (i < Left.size() && j < Right.size()) {
+        if (Left[i] <= Right[j]) {
+            result.push_back(Left[i]);
+            i++;
+        }
+        else {
+            result.push_back(Right[j]);
+            j++;
+        }
+    }
+
+    while (i < Left.size()) {
+        result.push_back(Left[i]);
+        i++;
+    }
+
+    while (j < Right.size()) {
+        result.push_back(Right[j]);
+        j++;
+    }
+
+    return result;
+}
+
+std::vector<int> MergeSort(std::vector<int> nums) {
+    if (nums.size() <= 1) {
+        return nums;
+    }
+
+    int middle = nums.size() / 2;
+
+    std::vector<int> left (nums.begin(), nums.begin() + middle);
+    std::vector<int> right (nums.begin() + middle, nums.end());
+
+    left = MergeSort(left);
+    right = MergeSort(right);
+
+    return Merge(left, right);
+}
+
+
+int main() {
+    std::vector<int> nums = {38, 27, 43, 100, 3, 9, 82, 10, 5};
+    int num;
+
+    nums = MergeSort(nums);
+
+    for (int i = 0; i < nums.size(); i++) {
+        std::cout << nums[i] << " ";
+    }
+
+    return 0;
+}
